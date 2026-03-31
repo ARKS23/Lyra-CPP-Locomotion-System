@@ -1,0 +1,19 @@
+# 虚幻引擎核心缓存与编译目录
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# IDE 与本地工程文件
+.vs/
+.idea/
+.vscode/
+*.sln
+*.suo
+*.xcworkspace
+*.uidefs
+
+# 操作系统垃圾
+.DS_Store
+Thumbs.db
