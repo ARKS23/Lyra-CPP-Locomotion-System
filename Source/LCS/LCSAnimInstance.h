@@ -25,25 +25,72 @@ public:
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
+	UFUNCTION(BlueprintPure)
+	UCharacterMovementComponent* GetMovementComponent();
+	
+	UFUNCTION(BlueprintPure)
+	ALCSCharacter* GetCharacter();
+	
+	UFUNCTION(BlueprintPure)
+	bool ShouldEnableControlRig();
+	
+	// ============================== 数据更新函数 ==============================
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateLocationData(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateRotationData(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateVelocityData(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateAccelerationData(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateWallDetection(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateCharacterStateData(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateBlendWeightData(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateRootYawOffset(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateAimingData(float DeltaSeconds);
+	
+	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateJumpFallData(float DeltaSeconds);
 	
-protected:
-	// 缓存引用
+	// ============================== 辅助函数 ==============================
+	UFUNCTION(BlueprintPure, Category="Helper")
+	ELCSCardinalDirection SelectCardinalDirectionFromAngle(float Angle, float DeadZone, ELCSCardinalDirection CurrentDirection, bool bUseCurrentDirection);
+	
+	UFUNCTION(BlueprintPure, Category="Helper")
+	ELCSCardinalDirection GetOppositeCardinalDirection(ELCSCardinalDirection CurrentDirection);
+	
+	UFUNCTION(BlueprintPure, Category="Helper")
+	bool IsMovingPerpendicularToInitialPivot(); // 是否正垂直于初始急转身方向移动,用于急转打断判断
+	
+	// ============================== 原地转身数据设置辅助函数 ==============================
+	UFUNCTION(BlueprintCallable, Category="Turn In Place")
+	void SetRootYawOffset(float InRootYawOffset);
+	
+	UFUNCTION(BlueprintCallable, Category="Turn In Place")
+	void ProcessTurnYawCurve();
+	
+public:
+	// ============================== 缓存引用 ==============================
     UPROPERTY()
 	TWeakObjectPtr<ALCSCharacter> Character;
 
 	UPROPERTY()
 	TWeakObjectPtr<UCharacterMovementComponent> MovementComponent;
 
+	
 	// ============================== 旋转相关数据 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Rotation Data")
 	FRotator WorldRotation;
@@ -57,6 +104,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category="Rotation Data")
 	float YawDeltaSpeed = 0.0f;
 
+	
 	// ============================== 速度相关数据 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Velocity Data")
 	FVector WorldVelocity;
@@ -79,6 +127,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category="Velocity Data")
 	bool bHasVelocity = false;
 	
+	
 	// ============================== 加速度数据 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Acceleration Data")
 	FVector2D LocalAcceleration2D;
@@ -88,6 +137,7 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, Category="Acceleration Data")
 	FVector2D PivotDirection2D;
+	
 	
 	// ============================== 角色状态相关 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Character State Data")
@@ -120,6 +170,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category="Character State Data")
 	bool bIsRunningIntoWall = false;
 
+	
 	// ============================== 位置数据: 主要用于距离匹配 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Location Data")
 	FVector WorldLocation;
@@ -129,6 +180,7 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category="Location Data")
 	float DisplacementSpeed = 0.0f;
+	
 	
 	// ============================== 标签绑定 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Gameplay Tag Bindings")
@@ -146,6 +198,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category="Gameplay Tag Bindings")
 	bool bGameplayTag_IsMelee = false;
 	
+	
 	// ============================== 起步，急转身相关变量 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
 	float LastPivotTime = 0.0f;	// 最后一次转身时间，防抽搐冷却
@@ -159,9 +212,11 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
 	ELCSCardinalDirection CardinalDirectionFromAcceleration = ELCSCardinalDirection::Forward; // 基于加速度的四向方向
 	
+	
 	// ============================== 混合权重数据 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Blend Weight Data")
 	float UpperbodyDynamicAdditiveWeight = 0.f;
+	
 	
 	// ============================== 瞄准数据 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Aiming Data")
@@ -170,9 +225,11 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category="Aiming Data")
 	float AimYaw = 0.f;
 	
+	
 	// ============================== 手柄摇杆角度适配设置 ============================== 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Settings")
 	float CardinalDirectionDeadZone = 10.f;
+	
 	
 	// ============================== 动画Link Layer ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Linked Layer Data")
@@ -180,6 +237,7 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, Category="Linked Layer Data")
 	TObjectPtr<UAnimInstance> LastLinkedLayer = nullptr;
+	
 	
 	// ============================== 原地转身相关数据 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Turn In Place Data")
@@ -200,7 +258,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Turn In Place Data")
 	FVector2D RootYawOffsetAngleClampCrouched = FVector2D(-60.f, 60.f);
 	
-	// 配置项
+	
+	// ============================== 配置项 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Config")
 	bool bIsFirstUpdate = true;		// 首次更新标识，防止第一帧插值算法出现扭曲情况
 	
