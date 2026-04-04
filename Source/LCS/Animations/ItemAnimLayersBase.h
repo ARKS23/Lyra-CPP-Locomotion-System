@@ -82,4 +82,44 @@ protected:
 	
 	UPROPERTY(BlueprintReadWrite, Category="Skel Control Data")
 	float HandFKWeight;
+	
+	// =================================== Stride Warpping =================================== 
+	UPROPERTY(BlueprintReadWrite, Category="Stride Warpping")
+	float StrideWarpingStartAlpha;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Stride Warpping")
+	float StrideWarpingPivotAlpha;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Stride Warpping")
+	float StrideWarpingCycleAlpha;
+	
+	// =================================== 原地转身 =================================== 
+	UPROPERTY(BlueprintReadWrite, Category="Turn In Place")
+	float TurnInPlaceAnimTime;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Turn In Place")
+	float TurnInPlaceRotationDirection;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Turn In Place")
+	float TurnInPlaceRecoveryDirection;
+	
+	// =================================== Idle breaks =================================== 
+	UPROPERTY(BlueprintReadWrite, Category="Idle breaks")
+	bool bWantsIdleBreak = false;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Idle breaks")
+	float TimeUntilNextIdleBreak;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Idle breaks")
+	int CurrentIdleBreakIndex;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Idle breaks")
+	float IdleBreakDelayTime;
+	
+	// // =================================== pivots =================================== 
+	UPROPERTY(BlueprintReadWrite, Category="Pivots")
+	FVector PivotStartingAcceleration;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Pivots")
+	float TimeAtPivotStop;
 };

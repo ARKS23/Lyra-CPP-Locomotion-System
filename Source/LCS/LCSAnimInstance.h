@@ -203,7 +203,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
 	float LastPivotTime = 0.0f;	// 最后一次转身时间，防抽搐冷却
 	
-	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
+	UPROPERTY(BlueprintReadWrite, Category="Locomotion SM Data")
 	ELCSCardinalDirection StartDirection = ELCSCardinalDirection::Forward;	// 起步方向
 	
 	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
@@ -232,7 +232,7 @@ public:
 	
 	
 	// ============================== 动画Link Layer ==============================
-	UPROPERTY(BlueprintReadOnly, Category="Linked Layer Data")
+	UPROPERTY(BlueprintReadWrite, Category="Linked Layer Data")
 	bool bLinkedLayerChanged = false;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Linked Layer Data")
@@ -249,7 +249,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Turn In Place Data")
 	float TurnYawCurveValue = 0.0f;	// 转身动画曲线值: 系统每帧读取这个值，用来精准地扣减 RootYawOffset
 	
-	UPROPERTY(BlueprintReadOnly, Category="Turn In Place Data")
+	UPROPERTY(BlueprintReadWrite, Category="Turn In Place Data")
 	ELCSRootYawOffsetMode RootYawOffsetMode = ELCSRootYawOffsetMode::BlendOut;	// 偏移模式
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Turn In Place Data")
