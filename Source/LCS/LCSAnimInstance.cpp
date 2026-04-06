@@ -92,7 +92,7 @@ void ULCSAnimInstance::UpdateLocationData(float DeltaSeconds)
 void ULCSAnimInstance::UpdateRotationData(float DeltaSeconds)
 {
 	const FRotator NewWorldRotation = Character->GetActorRotation();
-	YawDeltaSinceLastUpdate = (NewWorldRotation.Yaw - WorldRotation.Yaw);	// 后续可做边界跳变补丁
+	YawDeltaSinceLastUpdate = FRotator::NormalizeAxis(NewWorldRotation.Yaw - WorldRotation.Yaw);
 	WorldRotation = NewWorldRotation;
 	YawDeltaSpeed = UKismetMathLibrary::SafeDivide(YawDeltaSinceLastUpdate, DeltaSeconds);
 	
@@ -399,7 +399,7 @@ void ULCSAnimInstance::ProcessTurnYawCurve()
 		TurnYawCurveValue = GetCurveValue(RemainingTurnYaw) / GetCurveValue(TurnYawWeight);
 		if (PreviousTurnYawCurveValue != 0.0)
 		{
-			float DeltaYaw = PreviousTurnYawCurveValue - TurnYawCurveValue;
+			float DeltaYaw = TurnYawCurveValue - PreviousTurnYawCurveValue;
 			float InTurnYawCurveValue = RootYawOffset - DeltaYaw;
 			SetRootYawOffset(InTurnYawCurveValue);
 		}

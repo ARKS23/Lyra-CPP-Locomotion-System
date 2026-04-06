@@ -79,9 +79,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Turn In Place")
 	void SetRootYawOffset(float InRootYawOffset);
 	
-	UFUNCTION(BlueprintCallable, Category="Turn In Place")
+	UFUNCTION(BlueprintCallable, Category="Turn In Place", meta=(BlueprintThreadSafe))
 	void ProcessTurnYawCurve();
-	
+
 public:
 	// ============================== 缓存引用 ==============================
     UPROPERTY()
@@ -200,13 +200,13 @@ public:
 	
 	
 	// ============================== 起步，急转身相关变量 ==============================
-	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
+	UPROPERTY(BlueprintReadWrite, Category="Locomotion SM Data")
 	float LastPivotTime = 0.0f;	// 最后一次转身时间，防抽搐冷却
 	
 	UPROPERTY(BlueprintReadWrite, Category="Locomotion SM Data")
 	ELCSCardinalDirection StartDirection = ELCSCardinalDirection::Forward;	// 起步方向
 	
-	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
+	UPROPERTY(BlueprintReadWrite, Category="Locomotion SM Data")
 	ELCSCardinalDirection PivotInitialDirection = ELCSCardinalDirection::Forward;	// 急转身初始方向
 	
 	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
@@ -246,7 +246,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Turn In Place Data")
 	FFloatSpringState RootYawOffsetSpringState;	// 阻尼弹簧防止动作僵硬
 	
-	UPROPERTY(BlueprintReadOnly, Category="Turn In Place Data")
+	UPROPERTY(BlueprintReadWrite, Category="Turn In Place Data")
 	float TurnYawCurveValue = 0.0f;	// 转身动画曲线值: 系统每帧读取这个值，用来精准地扣减 RootYawOffset
 	
 	UPROPERTY(BlueprintReadWrite, Category="Turn In Place Data")

@@ -17,33 +17,37 @@ ALCSCharacter::ALCSCharacter()
 	// 弹簧臂
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
 	SpringArmComponent->SetupAttachment(RootComponent);
-	SpringArmComponent->bUsePawnControlRotation = true;	// 弹簧臂跟随输入旋转
-	SpringArmComponent->TargetArmLength = 350.0f;
-	SpringArmComponent->bEnableCameraLag = true; // 开启摄像机位置延迟，人物急停时有滞后感
-	SpringArmComponent->CameraLagSpeed = 10.f; // 越小越滞后，越大越及时
 	
 	// 摄像机
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(SpringArmComponent, USpringArmComponent::SocketName);
-	CameraComponent->bUsePawnControlRotation = false;	// 本身已经挂载在弹簧臂上了，跟随弹簧臂旋转
-	
-	// 角色朝向控制
-	bUseControllerRotationRoll = false;
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
-
-	// 配置移动组件
-	GetCharacterMovement()->bOrientRotationToMovement = true; // 角色朝向移动方向
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
-	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;	// 手柄摇杆输入角色开始行走的速度最小阈值
-	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f; // 急停减速度
 }
 
 // Called when the game starts or when spawned
 void ALCSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	// 弹簧臂
+	SpringArmComponent->bUsePawnControlRotation = true;	// 弹簧臂跟随输入旋转
+	SpringArmComponent->TargetArmLength = 300.0f;
+	SpringArmComponent->bEnableCameraLag = true; // 开启摄像机位置延迟，人物急停时有滞后感
+	SpringArmComponent->CameraLagSpeed = 10.f; // 越小越滞后，越大越及时
+	
+	// 摄像机
+	CameraComponent->bUsePawnControlRotation = false;	// 本身已经挂载在弹簧臂上了，跟随弹簧臂旋转
+	
+	// 角色朝向控制
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = true;
+	
+	// 配置移动组件
+	GetCharacterMovement()->bOrientRotationToMovement = false; // 角色朝向移动方向
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
+	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;	// 手柄摇杆输入角色开始行走的速度最小阈值
+	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f; // 急停减速度
 
 	RegisterMappingContext();
 }
