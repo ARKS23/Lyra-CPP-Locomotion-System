@@ -11,13 +11,10 @@
 
 ## 功能
 ### 基础移动
-![](document/gifs/move.gif)
 
 ### 原地转身
-![](document/gifs/TurnInPlace.gif)
 
 ### 折返跑
-![](document/gifs/pivot.gif)
 
 ### 各向运动
 TODO
