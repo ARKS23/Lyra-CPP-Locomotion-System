@@ -30,7 +30,7 @@ void ALCSCharacter::BeginPlay()
 	
 	// 弹簧臂
 	SpringArmComponent->bUsePawnControlRotation = true;	// 弹簧臂跟随输入旋转
-	SpringArmComponent->TargetArmLength = 300.0f;
+	SpringArmComponent->TargetArmLength = 200.0f;
 	SpringArmComponent->bEnableCameraLag = true; // 开启摄像机位置延迟，人物急停时有滞后感
 	SpringArmComponent->CameraLagSpeed = 10.f; // 越小越滞后，越大越及时
 	

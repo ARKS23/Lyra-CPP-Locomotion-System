@@ -168,6 +168,16 @@ void ULCSAnimInstance::UpdateAccelerationData(float DeltaSeconds)
 		);
 		
 		CardinalDirectionFromAcceleration = GetOppositeCardinalDirection(TempDirection);
+		
+		// 获取加速度方向
+		FVector LocalAcceleration3D = WorldRotation.UnrotateVector(MovementComponent->GetCurrentAcceleration());
+		float AccelDirectionAngle = FMath::RadiansToDegrees(FMath::Atan2(LocalAcceleration3D.Y, LocalAcceleration3D.X));
+		LocalAccelerationDirection = SelectCardinalDirectionFromAngle(
+			AccelDirectionAngle, 
+			CardinalDirectionDeadZone, 
+			LocalAccelerationDirection, 
+			false // 每次起步都是重新判定，不需要使用上一次的方向来扩大死区
+		);
 	}
 };
 

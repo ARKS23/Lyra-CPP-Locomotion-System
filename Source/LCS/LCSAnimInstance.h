@@ -212,6 +212,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
 	ELCSCardinalDirection CardinalDirectionFromAcceleration = ELCSCardinalDirection::Forward; // 基于加速度的四向方向
 	
+	UPROPERTY(BlueprintReadOnly, Category="Locomotion SM Data")
+	ELCSCardinalDirection LocalAccelerationDirection = ELCSCardinalDirection::Forward; // 加速度方向，用于选择启动动画
+	
 	
 	// ============================== 混合权重数据 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Blend Weight Data")
