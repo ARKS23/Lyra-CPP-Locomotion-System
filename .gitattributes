@@ -1,3 +1,4 @@
 # 标记虚幻资产为二进制大文件
 *.uasset filter=lfs diff=lfs merge=lfs -text
 *.umap filter=lfs diff=lfs merge=lfs -text
+*.gif filter=lfs diff=lfs merge=lfs -text
