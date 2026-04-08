@@ -1,6 +1,9 @@
 # Lyra C++ Locomotion System
 本项目基于UE-5.7，使用C++复刻Lyra Starter Game的运动系统。
 
+## 整体类结构
+![类图](document/images/uml_classes.png)
+
 ## 阶段性目标
 - 掌握Lyra的运动系统架构设计
 - 将Blueprint中数据获取和计算逻辑用C++重构
@@ -8,6 +11,15 @@
 
 ## 功能
 ### 基础移动
+![](document/gifs/move.gif)
+
+### 原地转身
+![](document/gifs/TurnInPlace.gif)
+
+### 折返跑
+![](document/gifs/pivot.gif)
+
+### 各向运动
 TODO
 
 ### 跳跃
@@ -16,22 +28,10 @@ TODO
 ### 蹲伏
 TODO
 
-### 各向运动
+### 姿势倾斜
 TODO
 
-### 起步和急停
-TODO
-
-### 急转
-TODO
-
-### 身体倾斜
-TODO
-
-### Turn In place
-TODO
-
-### Aim offset
+### 瞄准偏移
 TODO
 
 ### Stride Warping
