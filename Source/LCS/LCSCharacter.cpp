@@ -45,9 +45,12 @@ void ALCSCharacter::BeginPlay()
 	// 配置移动组件
 	GetCharacterMovement()->bOrientRotationToMovement = false; // 角色朝向移动方向
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;	// 手柄摇杆输入角色开始行走的速度最小阈值
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f; // 急停减速度
+	GetCharacterMovement()->BrakingFriction = 3.0f;
+	GetCharacterMovement()->bUseSeparateBrakingFriction = true;
+	GetCharacterMovement()->MaxAcceleration = 1200.0f;
 
 	RegisterMappingContext();
 }
