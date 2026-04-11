@@ -3,6 +3,7 @@
 
 #include "LCSAnimInstance.h"
 #include "LCSCharacter.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -299,6 +300,49 @@ void ULCSAnimInstance::UpdateAimingData(float DeltaSeconds)
 	AimPitch = FMath::FInterpTo(AimPitch, TargetAimPitch, DeltaSeconds, 15.0f);
 }
 
+void ULCSAnimInstance::UpdateGroundDistance(float DeltaSeconds)
+{
+	// 只有在下落时才计算落地距离，节省性能
+	if (bIsFalling && WorldVelocity.Z < 0.0f)
+	{
+		// 设定扫描起点和终点
+		FVector StartLocation = Character->GetActorLocation();
+		float MaxTraceDistance = 1500.0f;	// 向下扫描15米
+		FVector EndLocation = StartLocation + FVector(0.0f, 0.0f, -MaxTraceDistance);
+		
+		// 碰撞参数：忽略自己
+		FCollisionQueryParams CollisionParams;
+		CollisionParams.AddIgnoredActor(Character.Get());
+		
+		// 执行射线检测
+		FHitResult HitResult;
+		float SweepRadius = MovementComponent->GetCharacterOwner()->GetCapsuleComponent()->GetScaledCapsuleRadius();
+		bool bHit = GetWorld()->SweepSingleByChannel(
+			HitResult,
+			StartLocation,
+			EndLocation,
+			FQuat::Identity,
+			ECC_Visibility,
+			FCollisionShape::MakeSphere(SweepRadius),
+			CollisionParams);
+		
+		if (bHit)
+		{
+			GroundDistance = HitResult.Distance;
+		}
+		else
+		{
+			// 还没看到地面：万丈深渊，先设置成-1
+			GroundDistance = -1.0f;
+		}
+	}
+	else
+	{
+		// 非坠落情况
+		GroundDistance = 0.0f;
+	}
+}
+
 void ULCSAnimInstance::UpdateJumpFallData(float DeltaSeconds)
 {
 	if (bIsJumping)
@@ -310,6 +354,8 @@ void ULCSAnimInstance::UpdateJumpFallData(float DeltaSeconds)
 	{
 		TimeToJumpApex = 0.0f;
 	}
+	
+	UpdateGroundDistance(DeltaSeconds);
 }
 
 ELCSCardinalDirection ULCSAnimInstance::SelectCardinalDirectionFromAngle(float Angle, float DeadZone,

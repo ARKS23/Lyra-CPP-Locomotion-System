@@ -33,6 +33,7 @@ protected:
 	// 输入回调
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	void OnJump(const FInputActionValue& Value);
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
@@ -50,6 +51,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* MoveAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* JumpAction;
 
 	void RegisterMappingContext() const;
 };

@@ -65,6 +65,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Update")
 	void UpdateJumpFallData(float DeltaSeconds);
 	
+	void UpdateGroundDistance(float DeltaSeconds);	// 下坠距离匹配
+	
 	// ============================== 辅助函数 ==============================
 	UFUNCTION(BlueprintPure, Category="Helper")
 	ELCSCardinalDirection SelectCardinalDirectionFromAngle(float Angle, float DeadZone, ELCSCardinalDirection CurrentDirection, bool bUseCurrentDirection);
@@ -170,6 +172,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Character State Data")
 	bool bIsRunningIntoWall = false;
 
+	UPROPERTY(BlueprintReadOnly, Category="Character State Data")
+	float GroundDistance = -1.0f;
 	
 	// ============================== 位置数据: 主要用于距离匹配 ==============================
 	UPROPERTY(BlueprintReadOnly, Category="Location Data")

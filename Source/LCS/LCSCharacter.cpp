@@ -51,6 +51,11 @@ void ALCSCharacter::BeginPlay()
 	GetCharacterMovement()->BrakingFriction = 3.0f;
 	GetCharacterMovement()->bUseSeparateBrakingFriction = true;
 	GetCharacterMovement()->MaxAcceleration = 1200.0f;
+	
+	GetCharacterMovement()->JumpZVelocity = 500.f;
+	GetCharacterMovement()->AirControl = 0.4f;
+	GetCharacterMovement()->AirControlBoostMultiplier = 4.0f;
+	GetCharacterMovement()->AirControlBoostVelocityThreshold = 50.f;
 
 	RegisterMappingContext();
 }
@@ -83,6 +88,11 @@ void ALCSCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void ALCSCharacter::OnJump(const FInputActionValue& Value)
+{
+	if (!GetCharacterMovement()->IsFalling()) Jump();
+}
+
 void ALCSCharacter::RegisterMappingContext() const
 {
 	if (APlayerController *PlayerController = Cast<APlayerController>(Controller))
@@ -109,6 +119,7 @@ void ALCSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ALCSCharacter::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ALCSCharacter::Look);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ALCSCharacter::OnJump);
 	}
 }
 
