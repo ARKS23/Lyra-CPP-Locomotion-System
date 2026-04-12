@@ -118,7 +118,8 @@ void ULCSAnimInstance::UpdateVelocityData(float DeltaSeconds)
 	FVector LocalVelocity3D = WorldRotation.UnrotateVector(WorldVelocity);	// 转成本地移动速度
 	LocalVelocity2D = FVector2D(LocalVelocity3D.X, LocalVelocity3D.Y); // 转成二维本地速度取消Z轴的速度
 	LocalVelocityDirectionAngle = CalculateDirection(WorldVelocity, WorldRotation);	 // 计算移动角度-180~180
-	LocalVelocityDirectionAngleWithOffset = LocalVelocityDirectionAngle - RootYawOffset; // 姿态补偿，如果看风景右转了45读，左腿需要向左补偿45度
+	//LocalVelocityDirectionAngleWithOffset = LocalVelocityDirectionAngle - RootYawOffset; // 姿态补偿，如果看风景右转了45读，左腿需要向左补偿45度
+	LocalVelocityDirectionAngleWithOffset = FRotator::NormalizeAxis(LocalVelocityDirectionAngle - RootYawOffset);
 	LocalVelocityDirection = SelectCardinalDirectionFromAngle(LocalVelocityDirectionAngleWithOffset, CardinalDirectionDeadZone, LocalVelocityDirection, bWasMovingLastUpdate);
 	LocalVelocityDirectionNoOffset = SelectCardinalDirectionFromAngle(LocalVelocityDirectionAngle, CardinalDirectionDeadZone, LocalVelocityDirectionNoOffset, bWasMovingLastUpdate);
 	//bHasVelocity = !UKismetMathLibrary::NearlyEqual_FloatFloat(LocalVelocity2D.SquaredLength(), 0.0f, 0.000001);
