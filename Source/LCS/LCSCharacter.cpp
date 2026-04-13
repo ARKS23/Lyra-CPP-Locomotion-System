@@ -56,6 +56,10 @@ void ALCSCharacter::BeginPlay()
 	GetCharacterMovement()->AirControl = 0.4f;
 	GetCharacterMovement()->AirControlBoostMultiplier = 4.0f;
 	GetCharacterMovement()->AirControlBoostVelocityThreshold = 50.f;
+	
+	GetCharacterMovement()->bCanWalkOffLedgesWhenCrouching = true;
+	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
+	GetCharacterMovement()->MaxWalkSpeedCrouched = 350.f;
 
 	RegisterMappingContext();
 }
@@ -93,6 +97,16 @@ void ALCSCharacter::OnJump(const FInputActionValue& Value)
 	if (!GetCharacterMovement()->IsFalling()) Jump();
 }
 
+void ALCSCharacter::OnCrouchStart(const FInputActionValue& Value)
+{
+	this->Crouch();
+}
+
+void ALCSCharacter::OnCrouchEnd(const FInputActionValue& Value)
+{
+	this->UnCrouch();
+}
+
 void ALCSCharacter::RegisterMappingContext() const
 {
 	if (APlayerController *PlayerController = Cast<APlayerController>(Controller))
@@ -120,6 +134,8 @@ void ALCSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ALCSCharacter::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ALCSCharacter::Look);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ALCSCharacter::OnJump);
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ALCSCharacter::OnCrouchStart);
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &ALCSCharacter::OnCrouchEnd);
 	}
 }
 
