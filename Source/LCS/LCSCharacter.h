@@ -29,6 +29,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	void RegisterMappingContext() const;
 
 	// 输入回调
 	void Move(const FInputActionValue& Value);
@@ -36,6 +38,10 @@ protected:
 	void OnJump(const FInputActionValue& Value);
 	void OnCrouchStart(const FInputActionValue& Value);
 	void OnCrouchEnd(const FInputActionValue& Value);
+	
+	// 装备武器
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void EquipWeapon();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
@@ -62,6 +68,7 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* JogAction;
-
-	void RegisterMappingContext() const;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	TObjectPtr<USkeletalMeshComponent> WeaponMesh;
 };

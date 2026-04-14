@@ -21,6 +21,11 @@ ALCSCharacter::ALCSCharacter()
 	// 摄像机
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(SpringArmComponent, USpringArmComponent::SocketName);
+	
+	// 武器组件和碰撞设置
+	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	WeaponMesh->SetCollisionProfileName(FName("NoCollision"));
 }
 
 // Called when the game starts or when spawned
@@ -61,7 +66,11 @@ void ALCSCharacter::BeginPlay()
 	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	GetCharacterMovement()->MaxWalkSpeedCrouched = 350.f;
 
+	// 输入配置
 	RegisterMappingContext();
+	
+	// 武器配置
+	EquipWeapon();
 }
 
 void ALCSCharacter::Move(const FInputActionValue& Value)
@@ -105,6 +114,22 @@ void ALCSCharacter::OnCrouchStart(const FInputActionValue& Value)
 void ALCSCharacter::OnCrouchEnd(const FInputActionValue& Value)
 {
 	this->UnCrouch();
+}
+
+void ALCSCharacter::EquipWeapon()
+{
+	if (WeaponMesh && GetMesh())
+	{
+		// 附着规则
+		FAttachmentTransformRules AttachmentTransformRules(
+			EAttachmentRule::SnapToTarget,
+			EAttachmentRule::SnapToTarget,
+			EAttachmentRule::KeepRelative,
+			true
+		);
+		// 执行附着
+		WeaponMesh->AttachToComponent(GetMesh(), AttachmentTransformRules, FName("weapon_r"));
+	}
 }
 
 void ALCSCharacter::RegisterMappingContext() const

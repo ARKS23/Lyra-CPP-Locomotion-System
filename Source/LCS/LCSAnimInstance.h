@@ -187,7 +187,7 @@ public:
 	
 	
 	// ============================== 标签绑定 ==============================
-	UPROPERTY(BlueprintReadOnly, Category="Gameplay Tag Bindings")
+	UPROPERTY(BlueprintReadWrite, Category="Gameplay Tag Bindings")
 	bool bGameplayTag_IsADS = false;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Gameplay Tag Bindings")
